@@ -10,10 +10,22 @@ import ExpensiveComputationComponent from './components/ExpensiveComputationComp
 import FocusInput from './components/FocusInput';
 import useCurrentTime from './components/useCurrentTime';
 import DeferredText from './components/DeferredText';
+import FancyInput from './components/FancyInput';
+import ImperativeHandleDemo from './components/ImperativeHandleDemo';
+import ChildWithHandle from './components/ChildWithHandle';
 
 const App: React.FC = () => {
   const userId = 4;  
   const currentTime = useCurrentTime();
+  const childRef = useRef<any>(null);
+
+  const handleClick = () => {
+    if (childRef && childRef.current && childRef.current.alertSomething) {
+      childRef.current.alertSomething();
+    }
+  };
+  
+
 
   return (
     <div className="App bg-gray-100 min-h-screen p-6">
@@ -81,6 +93,14 @@ const App: React.FC = () => {
       <div className="p-4 mb-8 bg-white rounded-md shadow-md">
         <DeferredText />
       </div>
+
+      {/* useImperativeHandle */}
+      <div className="p-4 mb-8 bg-white rounded-md shadow-md">
+        <h2 className="text-xl font-semibold mb-4">useImperativeHandle Demo:</h2>
+        <ChildWithHandle ref={childRef} />
+        <button className="ml-4 p-2 bg-blue-500 text-white" onClick={handleClick}>Focus the input</button>
+      </div>
+
     </div>
   );
 }
